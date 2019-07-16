@@ -47,7 +47,7 @@ $(document).ready(function(){
 });
 function generateCard(playername,champid){
     htmltext=`
-        <div class="card" style="width: 18rem;">
+        <div class="card`+((playername===username)?(" active"):(""))+`"style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title">`+playername+`</h5>
                 <h6 class="card-subtitle mb-2 text-muted">n00b</h6>
