@@ -90,3 +90,6 @@ function setuserdata(){
     firebase.database().ref('users/').set(temp);
 
 }
+function reset(){
+    localStorage.clear();
+}
