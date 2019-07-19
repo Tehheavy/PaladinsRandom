@@ -92,4 +92,5 @@ function setuserdata(){
 }
 function reset(){
     localStorage.clear();
+    location.reload();
 }
