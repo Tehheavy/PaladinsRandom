@@ -68,7 +68,7 @@ function shuffleArray(array) {
 function scramble(){
     users=shuffleArray(users);
     for(let i=0;i<users.length;i++){
-        let champid = Math.floor(Math.random() * 41)+1;
+        let champid = Math.floor(Math.random() * 46)+1;
         console.log("for user:"+users[i].username+" randomed:"+champid);
         let legendaryid = Math.floor(Math.random() * 3)+1;
         users[i].champion=champid;
