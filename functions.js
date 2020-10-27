@@ -6,6 +6,7 @@ var dcRef;
 $(document).ready(function(){
     if(localStorage.getItem('name')===null){
         username=prompt("Please write a nickname");
+        username.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         while(username==null || username==""){
             username=prompt("Please write a valid nickname");
         }
