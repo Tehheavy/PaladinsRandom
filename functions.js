@@ -41,8 +41,11 @@ $(document).ready(function () {
                 if (!res[keys[i]].username || typeof res[keys[i]]?.username != 'string') {
                     res[keys[i]].username = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
                 }
-                if(!res[keys[i]].champion || isNaN(parseInt(res[keys[i]]?.champion))){
-                    res[keys[i]].champion='0';
+                if (!res[keys[i]].champion || isNaN(parseInt(res[keys[i]]?.champion))) {
+                    res[keys[i]].champion = '0';
+                }
+                if (!res[keys[i]].team || isNaN(parseInt(res[keys[i]]?.team)) || res[keys[i]]?.team > 2 || res[keys[i]]?.team < 1 ) {
+                    res[keys[i]].team=1;
                 }
                 let playercard = generateCard(res[keys[i]].username.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
                     res[keys[i]].champion.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;"));
