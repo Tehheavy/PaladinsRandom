@@ -41,11 +41,11 @@ $(document).ready(function () {
                 if (!res[keys[i]].username || typeof res[keys[i]]?.username != 'string') {
                     res[keys[i]].username = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
                 }
-                if(!res[keys[i]].champion){
+                if(!res[keys[i]].champion || isNaN(parseInt(res[keys[i]]?.champion))){
                     res[keys[i]].champion='0';
                 }
                 let playercard = generateCard(res[keys[i]].username.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
-                    res[keys[i]].champion.replace(/</g, "&lt;").replace(/>/g, "&gt;"));
+                    res[keys[i]].champion.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;"));
                 $("#team" + res[keys[i]].team).append(playercard);
             }
         }
