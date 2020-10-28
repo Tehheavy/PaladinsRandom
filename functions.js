@@ -33,8 +33,8 @@ $(document).ready(function(){
         for(let i=0;i<keys.length;i++){
             if(snapshot.val()[keys[i]].status=="online"){
                 users.push(snapshot.val()[keys[i]]);
-                let playercard=generateCard(snapshot.val()[keys[i]].username,
-                    snapshot.val()[keys[i]].champion);
+                let playercard=generateCard(snapshot.val()[keys[i]].username.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
+                    snapshot.val()[keys[i]].champion.replace(/</g, "&lt;").replace(/>/g, "&gt;"));
                     $("#team"+snapshot.val()[keys[i]].team).append(playercard);
             }
         }
@@ -50,7 +50,7 @@ function generateCard(playername,champid){
     htmltext=`
         <div class="card`+((playername===username)?(" active"):(""))+`"style="width: 18rem;">
             <div class="card-body">
-                <h5 class="card-title">`+playername+`</h5>
+                <h5 class="card-title">`+playername.replace(/</g, "&lt;").replace(/>/g, "&gt;")+`</h5>
                 <h6 class="card-subtitle mb-2 text-muted">n00b</h6>
                 <img src="paladins/`+champid+`.jpg" class="card-img-bottom" alt="paladins/0.jpg">
             </div>
