@@ -3,6 +3,7 @@ var database;
 var userRef;
 var users = [];
 var dcRef;
+var isConnected = false;
 $(document).ready(function () {
     if (localStorage.getItem('name') === null) {
         username = prompt("Please write a nickname");
@@ -27,6 +28,9 @@ $(document).ready(function () {
     userRef.on('value', function (snapshot) {
         const res = snapshot.val()
         if (!res) return;
+        isConnected = true
+        $('#lastRandom').text('Connected!')
+        $('#scramble').removeClass('disabled')
         console.log('res', snapshot);
 
         console.log('res', res);
@@ -44,8 +48,8 @@ $(document).ready(function () {
                 if (!res[keys[i]].champion || isNaN(parseInt(res[keys[i]]?.champion))) {
                     res[keys[i]].champion = '0';
                 }
-                if (!res[keys[i]].team || isNaN(parseInt(res[keys[i]]?.team)) || res[keys[i]]?.team > 2 || res[keys[i]]?.team < 1 ) {
-                    res[keys[i]].team=1;
+                if (!res[keys[i]].team || isNaN(parseInt(res[keys[i]]?.team)) || res[keys[i]]?.team > 2 || res[keys[i]]?.team < 1) {
+                    res[keys[i]].team = 1;
                 }
                 let playercard = generateCard(res[keys[i]].username.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
                     res[keys[i]].champion.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;"));
@@ -54,6 +58,15 @@ $(document).ready(function () {
         }
 
     });
+    var lastRollerRef = firebase.database().ref('lastRandom/');
+    lastRollerRef.on('value', function (snapshot) {
+        const res = snapshot.val()
+        if (!res) return;
+        console.log('lastroll', res);
+        $('#lastRandom2').text('last scrambler:'+res.replace(/</g, "&lt;").replace(/>/g, "&gt;"))
+
+
+    })
     var dcRef = firebase.database().ref("users/" + username);
     dcRef.onDisconnect().set({
         username: username,
@@ -81,28 +94,37 @@ function shuffleArray(array) {
     return array;
 }
 function scramble() {
-    users = shuffleArray(users);
-    for (let i = 0; i < users.length; i++) {
-        let champid = (Math.floor(Math.random() * 47) + 1).toString();
-        console.log("for user:" + users[i].username + " randomed:" + champid);
-        let legendaryid = Math.floor(Math.random() * 3) + 1;
-        users[i].champion = champid;
-        if (i % 2 == 0) {
-            users[i].team = 1;
+    if (isConnected) {
+
+        users = shuffleArray(users);
+        for (let i = 0; i < users.length; i++) {
+            let champid = (Math.floor(Math.random() * 47) + 1).toString();
+            console.log("for user:" + users[i].username + " randomed:" + champid);
+            let legendaryid = Math.floor(Math.random() * 3) + 1;
+            users[i].champion = champid;
+            if (i % 2 == 0) {
+                users[i].team = 1;
+            }
+            else {
+                users[i].team = 2;
+            }
         }
-        else {
-            users[i].team = 2;
-        }
+        setuserdata();
     }
-    setuserdata();
 }
 function setuserdata() {
-    let temp = {};
-    for (let i = 0; i < users.length; i++) {
-        temp[users[i].username] = users[i];
+    try {
+
+        let temp = {};
+        for (let i = 0; i < users.length; i++) {
+            temp[users[i].username] = users[i];
+        }
+        console.log(temp);
+        firebase.database().ref('users/').set(temp);
+        firebase.database().ref('lastRandom/').set(username);
+    } catch (e) {
+        console.log('error', e)
     }
-    console.log(temp);
-    firebase.database().ref('users/').set(temp);
 
 }
 function reset() {

@@ -13,13 +13,17 @@
         .active {
             background-color: powderblue;
         }
+        .disabled {
+            cursor: not-allowed !important;
+        }
     </style>
     <title>Paladins Scramble!</title>
 </head>
 
 <body>
     <div style="display:flex; flex-direction:column;justify-content:center;align-items: center">
-
+        <div id='lastRandom'>connecting...</div>
+        <div id='lastRandom2'>last random:""</div>
         <div style="display:flex; justify-content: center; margin-top: 10em">
             <div id="team1">
                 <div class="card" style="width: 18rem;">
@@ -40,7 +44,7 @@
             <div id="team2">noob2</div>
 
         </div>
-        <button type="button" class="btn btn-info" style="width: 8em" onclick="scramble()">Scramble</button>
+        <button id="scramble" type="button" class="btn btn-info disabled" style="width: 8em" onclick="scramble()">Scramble</button>
     </div>
     <button style="position: fixed;
     bottom: 0;
