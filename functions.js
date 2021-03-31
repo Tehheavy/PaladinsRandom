@@ -98,7 +98,7 @@ function scramble() {
 
         users = shuffleArray(users);
         for (let i = 0; i < users.length; i++) {
-            let champid = (Math.floor(Math.random() * 47) + 1).toString();
+            let champid = (Math.floor(Math.random() * 48) + 1).toString();
             console.log("for user:" + users[i].username + " randomed:" + champid);
             let legendaryid = Math.floor(Math.random() * 3) + 1;
             users[i].champion = champid;
